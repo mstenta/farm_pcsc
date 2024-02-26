@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * The farmOS PCSC module.
+ */
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Routing\RouteMatch;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function farm_pcsc_entity_type_alter(array &$entity_types) {
+  if (!empty($entity_types['plan_record'])) {
+    /** @var \Drupal\Core\Entity\ContentEntityTypeInterface $plan_record */
+    $plan_record = $entity_types['plan_record'];
+    $plan_record->setFormClass('add',  'Drupal\Core\Entity\ContentEntityForm');
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function farm_pcsc_plan_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+
+  // If this is not a PCSC Producer plan in full view mode, bail.
+  if (!($entity->bundle() == 'pcsc_producer' && $view_mode == 'full')) {
+    return;
+  }
+
+  // Add a link to create a PCSC Field Practice record.
+  $build['add_practice'] = Link::fromTextAndUrl(t('Add a practice'), Url::fromUri('base:plan/' . $entity->id() . '/pcsc_field_practice/add', ['query' => ['destination' => $entity->toUrl()->toString()]]))->toRenderable();
+  $build['add_practice']['#attributes']['class'][] = 'use-ajax';
+  $build['add_practice']['#attributes']['data-dialog-type'] = 'dialog';
+  $build['add_practice']['#attributes']['data-dialog-renderer'] = 'off_canvas';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function farm_pcsc_form_plan_record_pcsc_field_practice_add_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['plan']['#access'] = FALSE;
+  $form['plan']['widget'][0]['target_id']['#default_value'] = RouteMatch::createFromRequest(\Drupal::request())->getParameter('plan');
+}

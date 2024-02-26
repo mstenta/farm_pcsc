@@ -1,3 +1,21 @@
+farm_pcsc.farm_practice.add_form:
+  path: '/plan/{plan}/{plan_record_type}/add'
+  defaults:
+    _entity_form: plan_record.add
+    entity_type_id: plan_record
+    bundle_parameter: plan_record_type
+    _title: Add practice
+  requirements:
+    _entity_access: plan.update
+    asset: \d+
+  options:
+    parameters:
+      plan:
+        type: entity:plan
+      plan_record:
+        type: entity:plan_record
+      plan_record_type:
+        type: entity:plan_record_type
 farm_pcsc.csv_action_form:
   path: '/farm_pcsc/csv'
   defaults:
