@@ -212,7 +212,40 @@ class PcscCsvActionForm extends ConfirmFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
     // @todo Build data.
-    $data = [];
+    $data = [
+      [
+        'Farm ID' => '43543',
+        'Tract ID' => '456456',
+        'Field ID' => '234556',
+        'State or Territory' => 'CT',
+        'County' => 'Tolland',
+        'Grazing Type' => 'Management intensive',
+      ],
+      [
+        'Farm ID' => '29704',
+        'Tract ID' => '232758',
+        'Field ID' => '23486',
+        'State or Territory' => 'ME',
+        'County' => 'Cumberland',
+        'Grazing Type' => 'Rest-rotation',
+      ],
+      [
+        'Farm ID' => '686642',
+        'Tract ID' => '323289',
+        'Field ID' => '113543',
+        'State or Territory' => 'ME',
+        'County' => 'Cumberland',
+        'Grazing Type' => 'Cell grazing',
+      ],
+      [
+        'Farm ID' => '74462',
+        'Tract ID' => '264334',
+        'Field ID' => '400974',
+        'State or Territory' => 'CT',
+        'County' => 'Tolland',
+        'Grazing Type' => 'Deferred rotational',
+      ],
+    ];
 
     // Serialize the data as CSV.
     $output = $this->serializer->serialize($data, 'csv');
