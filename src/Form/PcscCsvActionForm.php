@@ -327,22 +327,14 @@ class PcscCsvActionForm extends ConfirmFormBase {
    */
   public function exportEnrollmentProducer() {
     $data = [];
-    $data[] = [
-      'Farm ID',
-      'State or Territory',
-      'County',
-      'Producer data change',
-      'Producer start date',
-      'Producer name',
-    ];
     foreach ($this->entities as $entity) {
       $data[] = [
-        $entity->get('pcsc_farm_id')->value,
-        $entity->get('pcsc_state')->value,
-        $entity->get('pcsc_county')->value,
-        '',
-        '',
-        $entity->label(),
+        'Farm ID' => $entity->get('pcsc_farm_id')->value,
+        'State or Territory' => $entity->get('pcsc_state')->value,
+        'County' => $entity->get('pcsc_county')->value,
+        'Producer data change' => '',
+        'Producer start date' => '',
+        'Producer name' => $entity->label(),
       ];
     }
     return $data;
@@ -371,11 +363,11 @@ class PcscCsvActionForm extends ConfirmFormBase {
       ]);
       foreach ($fields as $field) {
         $data[] = [
-          $farm_id,
-          $field->get('pcsc_tract_id')->value,
-          $field->get('pcsc_field_id')->value,
-          $field->get('pcsc_state')->value,
-          $field->get('pcsc_county')->value,
+          'Farm ID' => $farm_id,
+          'Tract ID' => $field->get('pcsc_tract_id')->value,
+          'Field ID' => $field->get('pcsc_field_id')->value,
+          'State or Territory' => $field->get('pcsc_state')->value,
+          'County' => $field->get('pcsc_county')->value,
         ];
       }
 
@@ -391,14 +383,6 @@ class PcscCsvActionForm extends ConfirmFormBase {
    */
   public function exportSupplemental528() {
     $data = [];
-    $data[] = [
-      'Farm ID',
-      'Tract ID',
-      'Field ID',
-      'State or Territory',
-      'County',
-      'Grazing Type',
-    ];
     foreach ($this->entities as $entity) {
       $farm_id = $entity->get('pcsc_farm_id')->value;
       $practices = $this->entityTypeManager->getStorage('plan_record')->loadByProperties([
@@ -418,12 +402,12 @@ class PcscCsvActionForm extends ConfirmFormBase {
         $field = reset($fields);
 
         $data[] = [
-          $farm_id,
-          $field->get('pcsc_tract_id')->value,
-          $field->get('pcsc_field_id')->value,
-          $field->get('pcsc_state')->value,
-          $field->get('pcsc_county')->value,
-          $practice->get('528_grazing_type')->value,
+          'Farm ID' => $farm_id,
+          'Tract ID' => $field->get('pcsc_tract_id')->value,
+          'Field ID' => $field->get('pcsc_field_id')->value,
+          'State or Territory' => $field->get('pcsc_state')->value,
+          'County' => $field->get('pcsc_county')->value,
+          'Grazing Type' => $practice->get('528_grazing_type')->value,
         ];
       }
 
