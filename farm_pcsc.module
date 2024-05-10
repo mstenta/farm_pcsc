@@ -80,6 +80,24 @@ function farm_pcsc_form_alter(&$form, FormStateInterface $form_state, $form_id) 
     $form['plan']['#access'] = FALSE;
     $form['field']['#access'] = FALSE;
   }
+
+  // Update County options when State changes in Producer and Field edit forms.
+  if (in_array($form_id, ['plan_pcsc_producer_edit_form', 'plan_record_pcsc_field_edit_form'])) {
+    $form['pcsc_state']['widget']['#ajax'] = [
+      'callback' => 'farm_pcsc_county_ajax_callback',
+      'wrapper' => 'edit-pcsc-county-wrapper',
+    ];
+    if ($form_state->getValue('pcsc_state')) {
+      $form['pcsc_county']['widget']['#options'] = farm_pcsc_state_county_options($form_state->getValue('pcsc_state'));
+    }
+  }
+}
+
+/**
+ * Ajax callback for replacing county field in plan+field edit forms.
+ */
+function farm_pcsc_county_ajax_callback(array $form, FormStateInterface $form_state) {
+  return $form['pcsc_county'];
 }
 
 /**
