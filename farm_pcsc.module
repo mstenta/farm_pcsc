@@ -26,6 +26,7 @@ use Drupal\farm_pcsc\Bundle\PcscFieldPractice484;
 use Drupal\farm_pcsc\Bundle\PcscFieldPractice528;
 use Drupal\farm_pcsc\Bundle\PcscFieldPractice590;
 use Drupal\farm_pcsc\Bundle\PcscFieldSummary;
+use Drupal\farm_pcsc\PlanRecordAccessControlHandler;
 
 /**
  * Implements hook_entity_type_build().
@@ -43,6 +44,11 @@ function farm_pcsc_entity_type_build(array &$entity_types) {
       'default' => DefaultEntityLocalTaskProvider::class,
     ]);
     $entity_types['plan_record']->setLinkTemplate('canonical', '/plan/record/{plan_record}');
+  }
+
+  if (!empty($entity_types['plan_record_type'])) {
+    // Set access handler.
+    $entity_types['plan_record_type']->setAccessClass(PlanRecordAccessControlHandler::class);
   }
 
 }
