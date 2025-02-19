@@ -3,6 +3,7 @@
 namespace Drupal\farm_pcsc\Plugin\views\field;
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Url;
 use Drupal\farm_pcsc\Bundle\PcscField;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Drupal\views\ResultRow;
@@ -40,8 +41,12 @@ class PCSCFieldPracticeLabels extends FieldPluginBase {
         ];
       }
 
+      $quick_form_link = Url::fromRoute('farm.quick.pcsc_practice')->setAbsolute()->toString();
       return [
-        '#markup' => new TranslatableMarkup('No practices.'),
+        '#markup' => new TranslatableMarkup(
+          'No practices. <a href="@quick_form_link">Add a practice</a>',
+          ['@quick_form_link' => $quick_form_link],
+        ),
       ];
     }
     return [];

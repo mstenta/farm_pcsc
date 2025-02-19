@@ -3,6 +3,7 @@
 namespace Drupal\farm_pcsc\Plugin\views\field;
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Url;
 use Drupal\farm_pcsc\Bundle\PcscField;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Drupal\views\ResultRow;
@@ -40,8 +41,12 @@ class PCSCFieldCommodityLabels extends FieldPluginBase {
         ];
       }
 
+      $quick_form_link = Url::fromRoute('farm.quick.pcsc_commodity_enrollment')->setAbsolute()->toString();
       return [
-        '#markup' => new TranslatableMarkup('No commodities.'),
+        '#markup' => new TranslatableMarkup(
+          'No commodities. <a href="@quick_form_link">Add a commodity</a>',
+          ['@quick_form_link' => $quick_form_link],
+        ),
       ];
     }
     return [];
